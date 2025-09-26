@@ -24,7 +24,12 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
+      - name: Configure AWS Credentials1
+        uses: aws-actions/configure-aws-credentials@v5.0.0
+        with:
+              aws-region: us-east-1
+              role-to-assume: arn:aws:sts::590183790645:assumed-role/voclabs/user4424701=Estudiante_de_prueba
+              #role-session-name: MySessionName
       - name: 🧪 Test AWS credentials antes de configurar
         run: |
           echo "Probando credenciales AWS..."
