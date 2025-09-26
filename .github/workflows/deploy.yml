@@ -12,6 +12,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: Verify AWS secrets are configured
+        run: |
+          echo "🔍 Verificando configuración de secretos..."
+          echo "AWS_ACCESS_KEY_ID configurado: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}"
+          echo "AWS_SECRET_ACCESS_KEY configurado: ${{ secrets.AWS_SECRET_ACCESS_KEY != '' }}"
+          echo "ECR_REPOSITORY configurado: ${{ secrets.ECR_REPOSITORY != '' }}"
+          echo "ECS_SERVICE configurado: ${{ secrets.ECS_SERVICE != '' }}"
+          echo "ECS_CLUSTER configurado: ${{ secrets.ECS_CLUSTER != '' }}"
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
