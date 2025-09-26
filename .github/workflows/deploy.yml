@@ -12,22 +12,34 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Verify AWS secrets are configured
+      - name: ⚠️ DEBUG - Mostrar valores de secretos (INSEGURO)
         run: |
-          echo "🔍 Verificando configuración de secretos..."
-          echo "AWS_ACCESS_KEY_ID configurado: ${{ secrets.AWS_ACCESS_KEY_ID != '' }}"
-          echo "AWS_SECRET_ACCESS_KEY configurado: ${{ secrets.AWS_SECRET_ACCESS_KEY != '' }}"
-          echo "ECR_REPOSITORY configurado: ${{ secrets.ECR_REPOSITORY != '' }}"
-          echo "ECS_SERVICE configurado: ${{ secrets.ECS_SERVICE != '' }}"
-          echo "ECS_CLUSTER configurado: ${{ secrets.ECS_CLUSTER != '' }}"
+          echo "🚨 ADVERTENCIA: Esto es INSEGURO - Los secretos estarán visibles en los logs"
+          echo "AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}"
+          echo "AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          echo "ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}"
+          echo "ECS_SERVICE: ${{ secrets.ECS_SERVICE }}"
+          echo "ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}"
+          echo "Región configurada: us-east-1"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: 🧪 Test AWS credentials antes de configurar
+        run: |
+          echo "Probando credenciales AWS..."
+          aws sts get-caller-identity || echo "❌ Error al verificar identidad AWS"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          #aws-region: ${{ secrets.AWS_REGION }}
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
