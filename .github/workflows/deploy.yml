@@ -43,7 +43,8 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           sed "s|\"tu-repositorio-aws/tu-imagen:latest"|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" ecs-task-def.json > ecs-task-def-rendered.json
-
+          cat ecs-task-def-rendered.json
+          
       - name: Update ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
