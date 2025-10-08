@@ -1,0 +1,37 @@
+# Variables de entorno sensibles
+.env
+.env.local
+.env.production
+*.env
+
+# Archivos Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Instancia Flask
+instance/
+
+# Archivos de logs
+*.log
+logs/
+
+# Base de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Archivos temporales
+*.tmp
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
